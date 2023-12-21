@@ -9,7 +9,6 @@ import classnames from "classnames";
 const Nav = () => {
   // [1.1.0] Get Path Name
   const currentPath = usePathname();
-  console.log(currentPath);
 
   // [1.0.0] Array of links
   const links = [
