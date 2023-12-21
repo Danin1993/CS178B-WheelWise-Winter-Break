@@ -2,16 +2,38 @@
 
 import React from "react";
 import { Flex, TextField, TextArea, Button } from "@radix-ui/themes";
+import { useForm } from "react-hook-form";
+import axios from "axios";
+
+interface LeadForm {
+  title: String;
+  description: String;
+}
 
 const CreateNewLead = () => {
+  const { register, handleSubmit } = useForm<LeadForm>();
+
   return (
-    <Flex direction="column" gap="3">
-      <TextField.Root>
-        <TextField.Input placeholder="Search the docs…" />
-      </TextField.Root>
-      <TextArea size="1" placeholder="Just for text, Replace Later ..." />
-      <Button>Create Lead</Button>
-    </Flex>
+    <form
+      onSubmit={handleSubmit(async (data) => {
+        await axios.post("/api/leads", data);
+      })}
+    >
+      <Flex direction="column" gap="3">
+        <TextField.Root>
+          <TextField.Input placeholder="Title ... " {...register("title")} />
+        </TextField.Root>
+
+        <TextField.Root>
+          <TextField.Input
+            placeholder="Description ..."
+            {...register("description")}
+          />
+        </TextField.Root>
+
+        <Button>Create Lead</Button>
+      </Flex>
+    </form>
   );
 };
 
