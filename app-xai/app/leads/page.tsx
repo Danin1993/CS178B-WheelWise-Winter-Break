@@ -1,7 +1,13 @@
 import React from "react";
+import { Button } from "@radix-ui/themes";
 
 const LeadPage = () => {
-  return <div>This Is Lead Page</div>;
+  return (
+    <>
+      <Button>New Lead</Button>
+      <div>This Is Lead Page</div>
+    </>
+  );
 };
 
 export default LeadPage;
