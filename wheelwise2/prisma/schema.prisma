@@ -3,9 +3,27 @@
 
 generator client {
   provider = "prisma-client-js"
+  previewFeatures = ["mongodb"]
 }
 
 datasource db {
   provider = "mongodb"
   url      = env("DATABASE_URL")
+}
+
+model Lead {
+  id         String    @id @default(auto()) @map("_id") @db.ObjectId
+  firstName  String
+  lastName   String
+  phone      String
+  email      String    @unique // assuming email should be unique
+  status     LeadStatus
+  createdAt  DateTime  @default(now()) // automatically set to the current date and time
+  updatedAt  DateTime  @updatedAt // automatically updated to the current date and time when the record is updated
+}
+
+enum LeadStatus {
+  OPEN
+  IN_PROCESS
+  CLOSED
 }
