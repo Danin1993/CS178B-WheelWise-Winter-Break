@@ -14,7 +14,7 @@ const NavBar = () => {
   ];
 
   return (
-    <nav className="flex space-x-6 border-b p-5 mb-5 items-center">
+    <nav className="flex space-x-6 border-b p-5 items-center">
       <Link href="/">
         <LiaCarSolid />
       </Link>
