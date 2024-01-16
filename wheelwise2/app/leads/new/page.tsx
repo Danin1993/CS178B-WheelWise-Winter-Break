@@ -4,6 +4,8 @@ import { Button, TextField } from "@radix-ui/themes";
 import { RiUserStarLine, RiUserStarFill } from "react-icons/ri";
 import { useForm } from "react-hook-form";
 import React from "react";
+import axios from "axios";
+import { useRouter } from "next/navigation";
 
 interface NewLeadForm {
   firstName: string;
@@ -13,12 +15,16 @@ interface NewLeadForm {
 }
 
 const NewLeadPage = () => {
+  const router = useRouter();
   const { register, handleSubmit } = useForm<NewLeadForm>();
 
   return (
     <form
       className="flex gap-3"
-      onSubmit={handleSubmit((data) => console.log(data))}
+      onSubmit={handleSubmit(async (data) => {
+        await axios.post("/api/leads", data);
+        router.push("/leads");
+      })}
     >
       <TextField.Root>
         <TextField.Slot>
