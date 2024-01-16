@@ -10,7 +10,7 @@ const NavBar = () => {
 
   const links = [
     { lable: "Dashboard", href: "/" },
-    { lable: "Leads", href: "/Leads" },
+    { lable: "Leads", href: "/leads" },
   ];
 
   return (
