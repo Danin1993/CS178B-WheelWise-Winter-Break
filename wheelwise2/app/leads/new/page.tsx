@@ -7,6 +7,9 @@ import { useForm } from "react-hook-form";
 import React, { useState } from "react";
 import axios from "axios";
 import { useRouter } from "next/navigation";
+import CallOut from "@/app/components/CallOut";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { createLeadSchema } from "@/app/components/Schemas";
 
 interface NewLeadForm {
   firstName: string;
@@ -17,22 +20,47 @@ interface NewLeadForm {
 
 const NewLeadPage = () => {
   const router = useRouter();
-  const { register, handleSubmit } = useForm<NewLeadForm>();
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<NewLeadForm>({
+    resolver: zodResolver(createLeadSchema),
+  });
   const [error, setError] = useState("");
 
   return (
-    <>
-      {error && (
-        <Box position="fixed" bottom="0" right="0" left="0" className="p-5">
-          <Callout.Root variant="surface" size="3">
-            <Callout.Icon>
-              <IoWarningOutline />
-            </Callout.Icon>
-            <Callout.Text>{error}</Callout.Text>
-          </Callout.Root>
-        </Box>
-      )}
+    <div>
+      {/* Error Handeling - Server Side */}
+      {error && <CallOut icon={IoWarningOutline}>{error}</CallOut>}
 
+      {/* Error Handeling - Client Side */}
+      {(errors.firstName && (
+        <CallOut icon={IoWarningOutline}>
+          {" "}
+          First Name : {errors.firstName.message}
+        </CallOut>
+      )) ||
+        (errors.lastName && (
+          <CallOut icon={IoWarningOutline}>
+            {" "}
+            Last Name : {errors.lastName.message}
+          </CallOut>
+        )) ||
+        (errors.phone && (
+          <CallOut icon={IoWarningOutline}>
+            {" "}
+            Phone Number : {errors.phone.message}
+          </CallOut>
+        )) ||
+        (errors.email && (
+          <CallOut icon={IoWarningOutline}>
+            {" "}
+            Email Address : {errors.email.message}
+          </CallOut>
+        ))}
+
+      {/* Form - Add New Lead */}
       <form
         className="flex gap-3"
         onSubmit={handleSubmit(async (data) => {
@@ -74,7 +102,7 @@ const NewLeadPage = () => {
 
         <Button>Add Lead</Button>
       </form>
-    </>
+    </div>
   );
 };
 
