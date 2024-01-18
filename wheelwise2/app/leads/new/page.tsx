@@ -28,34 +28,36 @@ const NewLeadPage = () => {
     resolver: zodResolver(createLeadSchema),
   });
   const [error, setError] = useState("");
+  const [success, setSuccess] = useState("");
 
   return (
     <div>
       {/* Error Handeling - Server Side */}
       {error && <CallOut icon={IoWarningOutline}>{error}</CallOut>}
+      {success && (
+        <CallOut icon={IoWarningOutline} color="green">
+          {success}
+        </CallOut>
+      )}
 
       {/* Error Handeling - Client Side */}
       {(errors.firstName && (
         <CallOut icon={IoWarningOutline}>
-          {" "}
           First Name : {errors.firstName.message}
         </CallOut>
       )) ||
         (errors.lastName && (
           <CallOut icon={IoWarningOutline}>
-            {" "}
             Last Name : {errors.lastName.message}
           </CallOut>
         )) ||
         (errors.phone && (
           <CallOut icon={IoWarningOutline}>
-            {" "}
             Phone Number : {errors.phone.message}
           </CallOut>
         )) ||
         (errors.email && (
           <CallOut icon={IoWarningOutline}>
-            {" "}
             Email Address : {errors.email.message}
           </CallOut>
         ))}
@@ -66,9 +68,15 @@ const NewLeadPage = () => {
         onSubmit={handleSubmit(async (data) => {
           try {
             await axios.post("/api/leads", data);
-            router.push("/leads");
+
+            setSuccess("Lead has been added");
+
+            setTimeout(() => {
+              router.push("/leads");
+            }, 2000); // 2000 milliseconds delay
           } catch (error) {
             setError("Error from API Server side!");
+            setSuccess("");
           }
         })}
       >
