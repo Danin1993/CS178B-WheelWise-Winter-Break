@@ -3,6 +3,7 @@ import { Button } from "@radix-ui/themes";
 import Link from "next/link";
 import prisma from "@/prisma/client";
 import { Table, Box } from "@radix-ui/themes";
+import LeadBadge from "./Badge";
 
 
 const leads = async () => {
@@ -33,7 +34,7 @@ const leads = async () => {
                 <Table.RowHeaderCell>{lead.firstName} {lead.lastName}</Table.RowHeaderCell>
                 <Table.Cell>{lead.email}</Table.Cell>
                 <Table.Cell>{lead.phone}</Table.Cell>
-                <Table.Cell>{lead.status}</Table.Cell>
+                <Table.Cell><LeadBadge status={lead.status} /></Table.Cell>
               </Table.Row>
             ))}
           </Table.Body>
