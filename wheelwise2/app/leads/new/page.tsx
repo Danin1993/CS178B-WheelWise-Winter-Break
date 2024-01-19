@@ -1,16 +1,23 @@
 'use client'
 
-import { Button, TextField, Box, Callout } from '@radix-ui/themes'
+// Importing necessary React, Next, and styling components
+import React, { useState } from 'react'
+import { useRouter } from 'next/navigation'
+import { useForm } from 'react-hook-form'
+import axios from 'axios'
+import { zodResolver } from '@hookform/resolvers/zod'
+
+// Importing UI components from @radix-ui/themes
+import { Button, TextField } from '@radix-ui/themes'
+
+// Importing icons
 import { RiUserStarLine, RiUserStarFill } from 'react-icons/ri'
 import { IoWarningOutline } from 'react-icons/io5'
-import { useForm } from 'react-hook-form'
-import React, { useState } from 'react'
-import axios from 'axios'
-import { useRouter } from 'next/navigation'
+
+// Importing custom components and schemas
 import CallOut from '@/app/components/CallOut'
-import { zodResolver } from '@hookform/resolvers/zod'
-import { createLeadSchema } from '@/app/components/Schemas'
 import Spinner from '@/app/components/Spinner'
+import { createLeadSchema } from '@/app/components/Schemas'
 
 interface NewLeadForm {
 	firstName: string
@@ -20,7 +27,9 @@ interface NewLeadForm {
 }
 
 const NewLeadPage = () => {
+
 	const router = useRouter()
+
 	const {
 		register,
 		handleSubmit,
@@ -28,16 +37,20 @@ const NewLeadPage = () => {
 	} = useForm<NewLeadForm>({
 		resolver: zodResolver(createLeadSchema),
 	})
+
 	const [error, setError] = useState('')
 	const [success, setSuccess] = useState('')
 	const [isSubmiting, setIsSubmitting] = useState(false)
 
 	return (
 		<div>
-			{/* Error Handeling - Client Side */}
+
+			{/* Error Handeling - Server Side */}
 
 			{error && <CallOut icon={IoWarningOutline}>{error}</CallOut>}
 			{success && <CallOut icon={IoWarningOutline} color="green">{success}</CallOut>}
+
+			{/* Error Handeling - Client Side */}
 
 			{
 				(errors.firstName && <CallOut icon={IoWarningOutline} title='First Name'>{errors.firstName.message}</CallOut>) ||
